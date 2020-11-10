@@ -7,3 +7,4 @@ protobuf>=3.2
 pymavlink==2.4.8
 pyserial
 requests
+airsim

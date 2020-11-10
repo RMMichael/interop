@@ -15,7 +15,9 @@ RUN apt-get -qq update && apt-get -qq install -y \
         python3-pip \
         python3-pyproj \
         python3-lxml \
-        sudo
+        sudo \
+        vim \
+        git-all
 
 COPY client/requirements.txt .
 
@@ -31,5 +33,6 @@ RUN bash -c "cd /interop/client && \
         source venv/bin/activate && \
         python3 setup.py install && \
         deactivate"
+
 
 CMD bash --init-file configure.sh

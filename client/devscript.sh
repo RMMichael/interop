@@ -23,3 +23,8 @@ bash -c "cd /interop/client && \
         python3 setup.py install && \
         deactivate"
 fi
+
+if [ "$1" == "venv" ]
+then
+bash -c "source venv/bin/activate"
+fi

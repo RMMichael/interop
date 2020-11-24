@@ -1,4 +1,132 @@
-# AUVSI SUAS Interoperability
+
+
+# UAVForge Setup and Instruction
+
+### Bug Notes
+There is a recurring bug when trying to use 
+the AUVSI SUAS docker image with Windows. 
+Until we get the bug fixed, please use a Linux ubuntu
+18 virtual machine.
+1. [Download virtual box](https://www.virtualbox.org/)
+2. [Download Ubuntu 20.04.1](https://ubuntu.com/download/desktop)
+
+* If your machine is very slow, you may need to modify the memory or processing power within
+the virtual box, to do this, right click your ubuntu machine and
+follow settings->system, then set the motherboard memory and/or 
+processor to a higher value
+
+### Docker Installation and Use
+#### Mac or Windows Install
+* Simply install [docker desktop](https://docs.docker.com/desktop/). 
+This comes with all packages needed.  
+Use the docker desktop gui to manage images and containers
+#### Linux Install
+1. Install [docker engine](https://docs.docker.com/engine/install/ubuntu/) using repository
+2. Install [docker compose](https://docs.docker.com/compose/install/)
+Step instructions - feel free to follow here or on dockers site  
+##### docker engine install
+1. open terminal
+2. check for existing versions of docker and remove them  
+    `sudo apt-get remove docker docker-engine docker.io containerd runc`
+3. Update the apt package index and install packages to allow apt to use a repository over HTTPS  
+   * `sudo apt-get update`  
+   * `sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common`
+4. add docker's official GPG key  
+`curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -`
+5. verify that the last 8 characters in the fingerprint of the key matches  
+`sudo apt-key fingerprint 0EBFCD88`  
+you should see..  
+`pub   rsa4096 2017-02-22 [SCEA]`  
+` 9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88`  
+`uid           [ unknown] Docker Release (CE deb) <docker@docker.com>`  
+`sub   rsa4096 2017-02-22 [S]`
+6. set up the stable repository  
+    * when selecting between x86 or arm, check the processor on your host computer
+    ![image for docker linux install](https://i.ibb.co/KVZHHBt/Screen-Shot-2020-11-21-at-10-38-27-AM.png)
+    set arch= to either amd64, armhf, or arm66.  
+    This example code is set to amd64  
+    `sudo add-apt-repository \
+    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+     $(lsb_release -cs) \
+     stable"`
+7. next install docker ce and cli  
+* `sudo apt-get update`
+* `sudo apt-get install docker-ce docker-ce-cli containerd.io`  
+8. verify that docker engine install with this command  
+`docker run hello-world`  
+you should see the docker image downloading and print a message  
+9. to update docker, run command  
+`sudo apt-get update`
+
+##### docker compose install  
+1. download the current stable release of docker compose  
+`sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose`  
+2. apply executable permissions  
+`sudo chmod +x /usr/local/bin/docker-compose`  
+3. (optional) if docker compose fails to install, create a symbolic link and repeat steps 1 and 2  
+`sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose`  
+4. verify the installation  
+`docker-compose --version`  
+the current version of docker compose should be printed to the terminal 
+#### Intro Docker Use
+Docker is an application that builds "containers" on top of the host system. 
+Docker maintains its own isolated environment, meaning you can run a linux system within 
+a container that uses its own applications and installs.  
+  
+Once you download an image, it needs to be built with a run command, 
+which creates a container on your host. You can build multiple containers 
+from a single image.   
+##### Useful Commands
+start a container that has been created but stopped  
+`docker start -ai <container name>`  
+ssh into a running container  
+`docker exec -it <container name> /bin/bash`  
+list all running containers (add -all flag for all containers)  
+`docker container ls`  
+list images  
+`docker images`  
+stop container  
+`docker stop <container id>`  
+
+#### Building the Interop Docker Image
+
+What you will need  
+* docker engine & docker compose (or docker desktop)
+* git, [install instructions here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)  
+
+First time set up,  
+From an open terminal...  
+  
+Setting up the server (this is where telemetry is sent, 
+missions are received and opponent flight data is stored)  
+1. clone the UAVForge Interop repository  
+`https://github.com/RMMichael/interop.git`  
+2. navigate to the project directory  
+`cd interop`  
+3. create the interop server's database  
+`sudo ./server/interop-server.sh create_db`  
+4. load test flight data into postgres sql database  
+`sudo ./server/interop-server.sh load_test_data`  
+5. launch the server at address localhost:8000  
+`sudo ./server/interop-server.sh up`  
+6. delete server if issues arise, this action is permanent 
+and steps 1-5 will need to be repeated  
+`sudo ./interop-server.sh rm_data`  
+  
+Setting up the client (this is where ground station issues commands to 
+the UAV and processes telemetry and mission data)  
+  
+from the interop folder, in an open terminal...
+1. 
+
+
+
+# AUVSI SUAS Interoperability (Original Readme)
 
 [![Build Status](https://travis-ci.com/auvsi-suas/interop.svg?branch=master)](https://travis-ci.com/auvsi-suas/interop)
 

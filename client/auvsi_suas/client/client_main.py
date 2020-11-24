@@ -1,10 +1,13 @@
 import sys, getopt
 import os
 import codecs
+import time
 
 from auvsi_suas.client.exceptions import InteropError
 from auvsi_suas.client.client import AsyncClient
 from auvsi_suas.client.client import Client
+from tools.mavlink_proxy import MavlinkProxy
+
 import argparse
 
 
@@ -44,7 +47,18 @@ def main(argv):
     client = Client(args.url, args.username, args.password, args.timeout,
                     args.max_concurrent, args.max_retries)
     testStuff = client.get_mission(1)
-    print(testStuff)
+
+    print(sys.path)
+
+    mavlink = MavlinkProxy('udpout:localhost:14570', client)
+
+
+
+    while True:
+        mavlink._print_state()
+        time.sleep(5)
+
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])

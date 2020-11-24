@@ -21,7 +21,7 @@ if [ "$1" == "rundev" ]
 then
 docker run --net=host --interactive --tty --name devtest  --mount type=bind,source=/Users/rick/uci-uav/interop,target=/interop auvsisuas/interop-client /bin/bash
 fi
-
+# docker run --net=host --interactive --tty --name devtest  --mount type=bind,source=/Users/rick/uci-uav/interop,target=/interop auvsisuas/interop-client /bin/bash
 # Pulls new images.
 if [ "$1" == "pull" ]
 then

@@ -101,6 +101,7 @@ What you will need
 
 First time set up,  
 From an open terminal...  
+note, leave out sudo if on windows  
   
 Setting up the server (this is where telemetry is sent, 
 missions are received and opponent flight data is stored)  
@@ -113,16 +114,76 @@ missions are received and opponent flight data is stored)
 4. load test flight data into postgres sql database  
 `sudo ./server/interop-server.sh load_test_data`  
 5. launch the server at address localhost:8000  
-`sudo ./server/interop-server.sh up`  
-6. delete server if issues arise, this action is permanent 
+`sudo ./server/interop-server.sh up`    
+
+* test the build (optional)  
+`sudo ./server/interop-client.sh test`  
+* test the database (optional)  
+`sudo ./server/interop-client.sh healthcheck`  
+  
+* misc config commands  
+1. Open a bash shell in the server container  
+`sudo ./server/interop-server.sh shell`  
+2. delete server if issues arise, this action is permanent 
 and steps 1-5 will need to be repeated  
-`sudo ./interop-server.sh rm_data`  
+`sudo ./server/interop-server.sh rm_data`  
+3. Stop the database  
+`sudo ./server/interop-server.sh down`  
   
 Setting up the client (this is where ground station issues commands to 
-the UAV and processes telemetry and mission data)  
+the UAV and processes telemetry and mission data). I will go over how to 
+run the docker image in two different ways. The first setup is a container that pulls from 
+a brand new image that is not modifiable and takes a bit to compile. If you want to make changes to 
+files and be able to test quickly, follow the second development setup.  
+
+##### Normal Client Environment  
+from the interop folder, in an open terminal...  
+note, Any changes you make to files on your host will not be updated in the 
+container. To run newly modified files, you will have to rerun 
+step 1 of normal client setup. Vim is available within this environment, 
+so if the changes are small, feel free to use that.  
   
-from the interop folder, in an open terminal...
-1. 
+1. Build container from docker image repo  
+`sudo ./client/interop-client.sh build`  
+2. Pull a new image and run the container  
+`sudo ./client/interop-client.sh run`  
+This command should build the client and ssh into the running 
+image. Your terminal commandline becomes a virtual environment within the
+container. You should see this...  
+![image for virtual environment command](https://i.ibb.co/5nJ6Ysn/Screen-Shot-2020-11-26-at-10-47-38-AM.png)  
+  
+* test the build (optional)  
+`sudo ./client/interop-client.sh test`
+
+  
+Note, any modifications made to files from the host computer 
+will need to repeat steps 1 and 2 to take effect.  
+  
+##### Development Client Environment  
+This setup mounts the interop folder from the host asynchronously 
+to allow for any modifications made to files from and IDE on the host 
+to be saved in the docker container immediately.  
+  
+1. Build container from docker image repo, this only needs to be done once. 
+You can rerun the command anytime to pull a new, updated build.    
+`sudo ./client/interop-client.sh build`   
+2. Mount the host folder (this opens a command line in new image)  
+`sudo ./interop-client.sh rundev`  
+3. Run virtual environment script  
+`source ./devscript.sh rundev`  
+you should see this on terminal...  
+![image for virtual environment command](https://i.ibb.co/RYgXt7N/Screen-Shot-2020-11-26-at-12-39-42-PM.png)  
+  
+* test the build (optional)  
+`sudo ./client/interop-client.sh test`
+
+##### Useful Dev Environment Commands  
+1. To open another command line in current container  
+`sudo ./client/interop-client.sh extenddev`   
+2. To exit the venv commandline  
+`deactivate`  
+
+
 
 
 

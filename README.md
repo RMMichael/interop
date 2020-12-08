@@ -211,8 +211,28 @@ you should see this on terminal...
 `cd PX4-Autopilot ; bash ./Tools/setup/ubuntu.sh`  
 5. next you will need to reboot your machine. Shut down and start the linux machine  
 6. to build the simulator with the correct model, from the PX4-Autopilot folder type  
-`make px4_sitl gazebo_typhoon_h480`  `
+`make px4_sitl gazebo_typhoon_h480`  
+7. Qgroundcontrol will be needed to run the simulation, follow instructions below  
 
+#### Qgroundcontrol setup guide
+1. start with entering these three commands in your terminal  
+`sudo usermod -a -G dialout $USER`  
+`sudo apt-get remove modemmanager -y`  
+`sudo apt install gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-gl -y`  
+2. next download the qgroundcontrol image [here](https://s3-us-west-2.amazonaws.com/qgroundcontrol/latest/QGroundControl.AppImage)  
+3. then, in your terminal, from the folder where qgroundcontrol image downloaded...  
+`chmod +x ./QGroundControl.AppImage`  
+`./QGroundControl.AppImage`  (or double click)  
+notes...  
+qgroundcontrol is configured to mavlink to the px4 simulator ports
+
+#### Simulator Use Guide  
+Begin by starting qgroundcontrol
+then cd into your PX4_Autopilot folder and run this command  
+`make px4_sitl gazebo_typhoon_h480`  
+
+you should see the simulator start, everything is controlled through 
+the qgroundcontrol application. more documentation to come 
 
 
 

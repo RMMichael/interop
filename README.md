@@ -25,7 +25,9 @@ Use the docker desktop gui to manage images and containers
 2. Install [docker compose](https://docs.docker.com/compose/install/)
 Step instructions - feel free to follow here or on dockers site  
 ##### docker engine install
-1. open terminal
+1. open terminal  
+note, you may need to configure dpkg so first run  
+`sudo dpkg --configure -a`  
 2. check for existing versions of docker and remove them  
     `sudo apt-get remove docker docker-engine docker.io containerd runc`
 3. Update the apt package index and install packages to allow apt to use a repository over HTTPS  
@@ -160,8 +162,8 @@ Note, any modifications made to files from the host computer
 will need to repeat steps 1 and 2 to take effect.  
   
 ##### Development Client Environment  
-This setup mounts the interop folder from the host asynchronously 
-to allow for any modifications made to files from and IDE on the host 
+This setup mounts the interop folder from directly from the host to allow for any 
+modifications made to files from and IDE on the host 
 to be saved in the docker container immediately.  
   
 1. Build container from docker image repo, this only needs to be done once. 
@@ -182,6 +184,14 @@ you should see this on terminal...
 `sudo ./client/interop-client.sh extenddev`   
 2. To exit the venv commandline  
 `deactivate`  
+
+
+## Linux VM setup instructions
+1. Start by following the docker linux install instructions above  
+2. download git  
+`sudo apt install git`  
+2. cd into a preferable directory and pull the interop repository  
+`git clone https://github.com/RMMichael/interop.git`  
 
 
 

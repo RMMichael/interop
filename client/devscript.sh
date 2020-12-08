@@ -23,7 +23,8 @@ bash -c "cd /interop/client && \
         python3 setup.py install && \
         deactivate"
 
-source venv/bin/activate
+bash --init-file configure.sh
+#source venv/bin/activate
 
 fi
 

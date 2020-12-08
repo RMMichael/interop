@@ -15,6 +15,25 @@ the virtual box, to do this, right click your ubuntu machine and
 follow settings->system, then set the motherboard memory and/or 
 processor to a higher value
 
+#### Virtual Machine Memory Modifications
+##### You may need to resize vm memory   
+
+If not, if you will need x amount of disk memory, to alter it, 
+1. Open your vm application and go to file->virtual media manager
+and click the appropriate .vdi hard disk. Click properties,
+change the size, then apply.  
+![modify memory instructions](https://i.ibb.co/Xy84FG1/Screen-Shot-2020-12-08-at-12-55-33-PM.png)  
+2. download gparted to change the linux machines disk partition size  
+`sudo apt install gparted`  
+3. click the square in the bottom left of your linux desktop, search 
+for gparted, open it  
+4. right click the correct partition, click resize, and change the "New size" section (you can use the arrow at the top of window)
+![linux disk partition image](https://i.ibb.co/Xy84FG1/Screen-Shot-2020-12-08-at-12-55-33-PM.png)  
+5. then, under the "extended tab", right click the partition in use, go to resize and change the memory (you can use the arrow at the top of window)  
+![linux disk partition image](https://i.ibb.co/XtRYbbs/Screen-Shot-2020-12-08-at-1-18-41-PM.png)  
+6. in the top bar, click apply changes 
+
+
 ### Docker Installation and Use
 #### Mac or Windows Install
 * Simply install [docker desktop](https://docs.docker.com/desktop/). 
@@ -31,13 +50,8 @@ note, you may need to configure dpkg so first run
 2. check for existing versions of docker and remove them  
     `sudo apt-get remove docker docker-engine docker.io containerd runc`
 3. Update the apt package index and install packages to allow apt to use a repository over HTTPS  
-   * `sudo apt-get update`  
-   * `sudo apt-get install \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg-agent \
-    software-properties-common`
+   * `sudo apt update`  
+   * `sudo apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common -y`
 4. add docker's official GPG key  
 `curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -`
 5. verify that the last 8 characters in the fingerprint of the key matches  
@@ -52,13 +66,10 @@ you should see..
     ![image for docker linux install](https://i.ibb.co/KVZHHBt/Screen-Shot-2020-11-21-at-10-38-27-AM.png)
     set arch= to either amd64, armhf, or arm66.  
     This example code is set to amd64  
-    `sudo add-apt-repository \
-    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-     $(lsb_release -cs) \
-     stable"`
+    `sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"`
 7. next install docker ce and cli  
-* `sudo apt-get update`
-* `sudo apt-get install docker-ce docker-ce-cli containerd.io`  
+* `sudo apt update`
+* `sudo apt install docker-ce docker-ce-cli containerd.io`  
 8. verify that docker engine install with this command  
 `docker run hello-world`  
 you should see the docker image downloading and print a message  
@@ -186,12 +197,21 @@ you should see this on terminal...
 `deactivate`  
 
 
-## Linux VM setup instructions
+### Linux PX4 Autopilot VM setup instructions
+#### Full PX4 documentation can be found [here](https://dev.px4.io/master/en/simulation/)  
+
 1. Start by following the docker linux install instructions above  
 2. download git  
 `apt update; sudo apt install git`  
 2. cd into a preferable directory and pull the interop repository  
 `git clone https://github.com/RMMichael/interop.git`  
+3. clone the px4 repository  
+`git clone https://github.com/PX4/PX4-Autopilot.git --recursive`  
+4. issue this command to cd into the px4 folder and run the install script  
+`cd PX4-Autopilot ; bash ./Tools/setup/ubuntu.sh`  
+5. next you will need to reboot your machine. Shut down and start the linux machine  
+6. to build the simulator with the correct model, from the PX4-Autopilot folder type  
+`make px4_sitl gazebo_typhoon_h480`  `
 
 
 

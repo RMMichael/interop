@@ -189,7 +189,7 @@ you should see this on terminal...
 ## Linux VM setup instructions
 1. Start by following the docker linux install instructions above  
 2. download git  
-`sudo apt install git`  
+`apt update; sudo apt install git`  
 2. cd into a preferable directory and pull the interop repository  
 `git clone https://github.com/RMMichael/interop.git`  
 

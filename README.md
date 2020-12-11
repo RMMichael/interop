@@ -188,13 +188,15 @@ you should see this on terminal...
 ![image for virtual environment command](https://i.ibb.co/RYgXt7N/Screen-Shot-2020-11-26-at-12-39-42-PM.png)  
   
 * test the build (optional)  
-`sudo ./client/interop-client.sh test`
+`sudo ./client/interop-client.sh test`  
 
 ##### Useful Dev Environment Commands  
 1. To open another command line in current container  
 `sudo ./client/interop-client.sh extenddev`   
 2. To exit the venv commandline  
 `deactivate`  
+
+### 
 
 
 ### Linux PX4 Autopilot VM setup instructions
@@ -234,8 +236,35 @@ then cd into your PX4_Autopilot folder and run this command
 you should see the simulator start, everything is controlled through 
 the qgroundcontrol application. more documentation to come 
 
+#### Using the interop_cli.py
 
+This file is the entrypoint for running anything client related. 
+It takes many different flags and can be run once, twice, etc.  
+It is executed by moving the current directory to interop/client/tools and calling...  
+`python3 interop_cli.py`  
 
+- The first sub-parser is client info, it takes three arguments and is required  
+   1. the url to where the server is being hosted (in this case)  
+    `--url http://127.0.0.1:8000`  
+   2. the username of the client  
+    `--username testuser`  
+   3. the password for client  
+    `--password testpass`  
+- sub-parser teams, which would simply be used by adding the word in your cli command. 
+This will display current team status  
+   ie `python3 interop_cli.py ... teams`  
+- Sub-parser mission, which takes a mission id argument and will display mission details  
+ie `python3 interop_cli.py ... mission --mission_id 1`  
+- Sub-parser odlcs, which can be used in two different ways  
+   1. download all odlcs on server  
+    ie `python3 interop_cli.py ... odlcs`  
+   2. upload odlcs, which does not support deduplication and will upload everything in the 
+    odlc directory    
+    ie `python3 interop_cli.py ... odlcs --odlc_dir`  
+- Sub-parser probe, which will send dummy requests from server to track connection  
+`python3 interop_cli.py ... probe ----interop_time` (time between requests)  
+- Sub-parser mavlink, which establishes a connection to UAV with mavlink  
+`python3 interop_cli.py ... mavlink --device tcp:localhost:8000`  
 
 # AUVSI SUAS Interoperability (Original Readme)
 

@@ -6,7 +6,7 @@
 There is a recurring bug when trying to use 
 the AUVSI SUAS docker image with Windows. 
 Until we get the bug fixed, please use a Linux ubuntu
-18 virtual machine.
+20.04 virtual machine.
 1. [Download virtual box](https://www.virtualbox.org/)
 2. [Download Ubuntu 20.04.1](https://ubuntu.com/download/desktop)
 

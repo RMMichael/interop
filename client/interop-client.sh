@@ -19,9 +19,10 @@ fi
 # Run the client container.
 if [ "$1" == "rundev" ]
 then
+    set +e ;
     docker rm devtest ;
-    docker run --net=host --interactive --tty --name devtest  --mount type=bind,source=/Users/rick/uci-uav/interop,target=/interop auvsisuas/interop-client /bin/bash
-
+    docker run --net=host --interactive --tty --name devtest  --mount type=bind,source=/Users/rick/uci-uav/interop,target=/interop auvsisuas/interop-client /bin/bash ;
+    set -e
 fi
 
 if [ "$1" == "extenddev" ]

@@ -130,9 +130,9 @@ missions are received and opponent flight data is stored)
 `sudo ./server/interop-server.sh up`    
 
 * test the build (optional)  
-`sudo ./server/interop-client.sh test`  
+`sudo ./server/interop-server.sh test`  
 * test the database (optional)  
-`sudo ./server/interop-client.sh healthcheck`  
+`sudo ./server/interop-server.sh healthcheck`  
   
 * misc config commands  
 1. Open a bash shell in the server container  

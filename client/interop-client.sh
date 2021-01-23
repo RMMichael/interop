@@ -25,6 +25,7 @@ then
     set -e
 fi
 
+
 if [ "$1" == "extenddev" ]
 then
     docker exec -it devtest /bin/bash --init-file configure.sh

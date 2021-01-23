@@ -1,6 +1,8 @@
 
 
 # UAVForge Setup and Instruction
+This readme consists of instructions to set up a client development environment and flight simulator.
+If you would just like to learn about overview of the UAVForge project, refer to the [original readme](https://github.com/auvsi-suas/interop)   
 
 ### Bug Notes
 There is a recurring bug when trying to use 
@@ -228,20 +230,29 @@ you should see this on terminal...
 notes...  
 qgroundcontrol is configured to mavlink to the px4 simulator ports
 
-#### Simulator Use Guide  
-Begin by starting qgroundcontrol
-then cd into your PX4_Autopilot folder and run this command  
-`make px4_sitl gazebo_typhoon_h480`  
+#### Simulator Use Guide
+* Cd to the PX4_Autopilot folder and run this command  
+  `make px4_sitl gazebo_typhoon_h480`
+  you should see the simulator start,  
 
-you should see the simulator start, everything is controlled through 
-the qgroundcontrol application. more documentation to come 
+* Then, run the server  
+  from the /interop directory...  
+  `sudo ./server/interop-server.sh up`  
+  the terminal should be left open and running  
+* Double click and open qgroundcontrol  
+* Run the client and connect the mavlink to the simulator.  
+  from the client directory...  
+  `python3 ./tools/interop_cli.py --url http://127.0.0.1:8000 --username testuser --password testpass mavlink --device udp:localhost:14540`  
+  
+now the client is linked to the simulator and relaying telemetry to the server  
+
 
 #### Using the interop_cli.py
 
 This file is the entrypoint for running anything client related. 
 It takes many different flags and can be run once, twice, etc.  
-It is executed by moving the current directory to interop/client/tools and calling...  
-`python3 interop_cli.py`  
+It is executed by moving the current directory to /interop/client and calling...  
+`python3 ./tools/interop_cli.py`  
 
 - The first sub-parser is client info, it takes three arguments and is required  
    1. the url to where the server is being hosted (in this case)  
@@ -252,19 +263,23 @@ It is executed by moving the current directory to interop/client/tools and calli
     `--password testpass`  
 - sub-parser teams, which would simply be used by adding the word in your cli command. 
 This will display current team status  
-   ie `python3 interop_cli.py ... teams`  
+   ie `python3 ./tools/interop_cli.py ... teams`  
 - Sub-parser mission, which takes a mission id argument and will display mission details  
-ie `python3 interop_cli.py ... mission --mission_id 1`  
+ie `python3 ./tools/interop_cli.py ... mission --mission_id 1`  
 - Sub-parser odlcs, which can be used in two different ways  
    1. download all odlcs on server  
-    ie `python3 interop_cli.py ... odlcs`  
+    ie `python3 ./tools/interop_cli.py ... odlcs`  
    2. upload odlcs, which does not support deduplication and will upload everything in the 
     odlc directory    
-    ie `python3 interop_cli.py ... odlcs --odlc_dir`  
+    ie `python3 ./tools/interop_cli.py ... odlcs --odlc_dir`  
 - Sub-parser probe, which will send dummy requests from server to track connection  
-`python3 interop_cli.py ... probe ----interop_time` (time between requests)  
+`python3 ./tools/interop_cli.py ... probe ----interop_time` (time between requests)  
 - Sub-parser mavlink, which establishes a connection to UAV with mavlink  
-`python3 interop_cli.py ... mavlink --device tcp:localhost:8000`  
+`python3 ./tools/interop_cli.py ... mavlink --device tcp:localhost:8000`  
+
+
+
+
 
 # AUVSI SUAS Interoperability (Original Readme)
 
